@@ -4,10 +4,11 @@ def main():
     players = load_players("data/players.json")
     enemies = load_enemies("data/enemies.json")
 
-    for p in players:
-        print(p)
-    for e in enemies:
-        print(e)
+    for player in players:
+        print(player.__shorthand__())
+    for enemy in enemies:
+        print(enemy.__shorthand__())
+
 
 
 if __name__ == "__main__":

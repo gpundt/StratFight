@@ -76,7 +76,7 @@ class Turn():
     def print_combat_order(self):
         print(f"="*5 + " Combat Order " + "="*5)
         for entity in self.combat_order:
-            print(entity.__shorthand__())
+            print(f"{entity.name}:\t{entity.current_hp}/{entity.max_hp}\t{entity.max_stamina} MAX STA")
 
     def full_turn(self):
         print(f"Turn: {self.turn_number}")
