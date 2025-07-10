@@ -1,6 +1,7 @@
-from enums.damage_types import DamageType
-from enums.character_classes import CharacterClass
-from utils.logger import *
+from stratfight.enums.damage_types import DamageType
+from stratfight.enums.character_classes import CharacterClass
+import textwrap
+from stratfight.utils.logger import log
 
 class BaseCharacter:
     def __init__(self, name: str, max_hp: int, base_attack: int, base_defense: int, max_mana: int, max_stamina: int, damage_type: DamageType, character_class: CharacterClass):
@@ -20,14 +21,15 @@ class BaseCharacter:
         self.is_alive = (self.current_hp > 0)
 
     def __str__(self):
-        string = f"Name: {self.name}\
-                    HP:\t{self.current_hp}/{self.max_hp}\
-                    Mana:\t{self.current_mana}/{self.max_mana}\
-                    Stamina:\t{self.current_stamina}/{self.max_stamina}\
-                    A/D:\t{self.current_attack}/{self.current_defense}\
-                    Class:\t{self.character_class}\
-                    Damage:\t{self.damage_type}"
-        return string
+        return textwrap.dedent(f"""
+        Name:\t\t{self.name}
+        HP:\t\t{self.current_hp}/{self.max_hp}
+        Mana:\t\t{self.current_mana}/{self.max_mana}
+        Stamina:\t{self.current_stamina}/{self.max_stamina}
+        A/D:\t\t{self.current_attack}/{self.current_defense}
+        Class:\t\t{self.character_class.name}
+        Damage:\t\t{self.damage_type.name}
+    """).strip()
 
     def take_damage(self, damage_amount: int, damage_type: DamageType):
         ## Resistances and stuff ##
@@ -48,7 +50,7 @@ class BaseCharacter:
         log(f"{self.name}'s attack has raised {gain_amount} points! Attack is now {self.current_attack}")
 
     def lose_defense(self, loss_amount: int):
-        self.current_attack = max(0, self.current_defense - loss_amount)
+        self.current_defense = max(0, self.current_defense - loss_amount)
         log(f"{self.name}'s defense has dropped {loss_amount} points! Defense is now {self.current_defense}")
 
     def gain_defense(self, gain_amount: int):
