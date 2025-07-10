@@ -10,5 +10,5 @@ class CharacterClass(Enum):
     RANGER = "Ranger"
     ROGUE = "Rogue"
     SUMMONER = "Summoner"
-    WALRLOCK= "Warlock"
+    WARLOCK= "Warlock"
     WIZARD = "Wizard"
