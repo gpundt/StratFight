@@ -56,7 +56,10 @@ class BaseCharacter:
         self.current_hp = max(0, self.current_hp)
         if self.debug_logs:
             log(f"{self.name} took {taken_damage} damage! HP is now {self.current_hp}/{self.max_hp}")
-
+        if (self.current_hp == 0):
+            self.is_alive = False
+            print(f"{self.name} has been slain!")
+    
     def gain_hp(self, heal_amount: int):
         self.current_hp += min(self.max_hp, self.current_hp + heal_amount)
         if self.debug_logs:

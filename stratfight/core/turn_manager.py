@@ -7,6 +7,7 @@ from stratfight.characters.player import Player
 from stratfight.characters.enemy import Enemy
 import stratfight.core.damage as damage
 import random
+import sys
 
 class Turn():
     def __init__(self, turn_number: int, players: list[Player], enemies: list[Enemy]):
@@ -15,6 +16,34 @@ class Turn():
         self.enemies = enemies
         self.all = players + enemies
         self.combat_order = sorted(self.all, key=lambda character: character.max_stamina, reverse=True)
+
+    def combat(self):
+        while True:
+            turn_result = self.full_turn()
+            match turn_result:
+                case "CONTINUE":
+                    pass
+                case "WIN":
+                    return 0
+                case "LOSE":
+                    return 1
+        
+    def check_enemy_team(self):
+        if len(self.enemies) == 0:
+            return "DEAD"
+        for enemy in self.enemies:
+            if enemy.current_hp == 0:
+                self.enemies.remove(enemy)
+        return "ALIVE"
+    
+    def check_player_team(self):
+        if len(self.players) == 0:
+            return "DEAD"
+        for player in self.players:
+            if player.current_hp == 0:
+                self.players.remove(player)
+        return "ALIVE"
+
 
     def player_make_choice(self, player: Player):
         choice = input(f"{player.name}... Make a choice\n"\
@@ -53,13 +82,22 @@ class Turn():
         print(f"Turn: {self.turn_number}")
         self.print_combat_order()
         for entity in self.combat_order:
-            print(f"{entity.name}'s Turn!")
-            if type(entity) is Enemy:
-                self.enemy_make_choice(entity)
-            elif type(entity) is Player:
-                self.player_make_choice(entity)
-    
-        self.turn_number += 1
+            enemy_status = self.check_enemy_team()
+            player_status = self.check_player_team()
+            if enemy_status == "ALIVE" and player_status == "ALIVE":
+                print(f"{entity.name}'s Turn!")
+                if type(entity) is Enemy:
+                    self.enemy_make_choice(entity)
+                elif type(entity) is Player:
+                    self.player_make_choice(entity)
+            elif enemy_status == "DEAD":
+                print("You win! The enemies have been slain!")
+                return "WIN"
+            elif player_status == "DEAD":
+                print(f"Game Over!\nYour team has been slain!")
+                return "LOSE"
+            self.turn_number += 1
+        return "CONTINUE"
 
 
 def main():
@@ -68,7 +106,7 @@ def main():
     test_enemy1 = Enemy("Test_enemy1", 40, 5, 5, 5, 5, DamageType.DARK, CharacterClass.BARBARIAN, [], 5, 10, debug_logs=True)
     test_enemy2 = Enemy("Test_enemy2", 40, 5, 5, 5, 90, DamageType.DARK, CharacterClass.BARBARIAN, [], 5, 10, debug_logs=True)
     turn = Turn(1, [test_player1, test_player2], [test_enemy1, test_enemy2])
-    turn.full_turn()
+    turn.combat()
 
 if __name__ == "__main__":
     main()
