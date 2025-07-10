@@ -45,6 +45,9 @@ class BaseCharacter:
                 f"Stamina={self.current_stamina}/{self.max_stamina}, "
                 f"Class={self.character_class.name}, "
                 f"Damage={self.damage_type.name})>")
+    
+    def __shorthand__(self):
+        return(f"{self.name}\tHP: {self.current_hp}/{self.max_hp}\tMax Stamina: {self.max_stamina}")
 
     def take_damage(self, damage_amount: int, damage_type: DamageType):
         ## Resistances and stuff ##

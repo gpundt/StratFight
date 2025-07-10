@@ -7,7 +7,7 @@ import textwrap
 
 
 class Enemy(BaseCharacter):
-    def __init__(self, name, max_hp, base_attack, base_defense, max_mana, max_stamina, damage_type, character_class, status_effects, level, xp_drop, debug_logs = False):
+    def __init__(self, name: str, max_hp: int, base_attack: int, base_defense: int, max_mana: int, max_stamina: int, damage_type: DamageType, character_class: CharacterClass, status_effects: list[StatusEffect], level: int, xp_drop: int, debug_logs = False):
         super().__init__(name, max_hp, base_attack, base_defense, max_mana, max_stamina, damage_type, character_class, status_effects, level, debug_logs)
         self.xp_drop = xp_drop
 
@@ -37,3 +37,9 @@ class Enemy(BaseCharacter):
     
     def dropped_xp(self):
         return self.xp_drop
+    
+def main():
+    test_enemy1 = Enemy("Test_enemy1", 40, 5, 5, 5, 5, DamageType.DARK, CharacterClass.BARBARIAN, [], 5, 10)
+
+if __name__ == "__main__":
+    main()
