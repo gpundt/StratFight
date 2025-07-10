@@ -51,10 +51,11 @@ class BaseCharacter:
 
     def take_damage(self, damage_amount: int, damage_type: DamageType):
         ## Resistances and stuff ##
-        self.current_hp -= max(0, damage_amount - self.current_defense)
+        taken_damage = max(1, damage_amount - self.current_defense)
+        self.current_hp -= taken_damage
         self.current_hp = max(0, self.current_hp)
         if self.debug_logs:
-            log(f"{self.name} took {damage_amount} damage! HP is now {self.current_hp}/{self.max_hp}")
+            log(f"{self.name} took {taken_damage} damage! HP is now {self.current_hp}/{self.max_hp}")
 
     def gain_hp(self, heal_amount: int):
         self.current_hp += min(self.max_hp, self.current_hp + heal_amount)
