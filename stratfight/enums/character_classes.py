@@ -12,3 +12,5 @@ class CharacterClass(Enum):
     SUMMONER = "Summoner"
     WARLOCK= "Warlock"
     WIZARD = "Wizard"
+    SAMURAI = "Samurai"
+    KNIGHT = "Knight"

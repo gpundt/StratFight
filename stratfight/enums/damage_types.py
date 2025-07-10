@@ -9,3 +9,6 @@ class DamageType(Enum):
     EARTH = "Earth"
     LIGHT = "Light"
     DARK = "Dark"
+    POISON = "Poison"
+    PSYCHIC = "Psychic"
+    WIND = "Wind"
