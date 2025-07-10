@@ -19,6 +19,16 @@ class BaseCharacter:
         self.character_class = character_class
         self.is_alive = (self.current_hp > 0)
 
+    def __str__(self):
+        string = f"Name: {self.name}\
+                    HP:\t{self.current_hp}/{self.max_hp}\
+                    Mana:\t{self.current_mana}/{self.max_mana}\
+                    Stamina:\t{self.current_stamina}/{self.max_stamina}\
+                    A/D:\t{self.current_attack}/{self.current_defense}\
+                    Class:\t{self.character_class}\
+                    Damage:\t{self.damage_type}"
+        return string
+
     def take_damage(self, damage_amount: int, damage_type: DamageType):
         ## Resistances and stuff ##
         self.current_hp -= max(0, damage_amount - self.current_defense)
@@ -68,3 +78,11 @@ class BaseCharacter:
     def change_character_class(self, new_character_class: CharacterClass):
         self.character_class = new_character_class
         log(f"{self.name}'s class has changed! Class is now {self.character_class}")
+
+
+def main():
+    character = BaseCharacter("Test", 50, 10, 7, 45, 50, DamageType.EARTH, CharacterClass.BARBARIAN)
+    print(character)
+
+if __name__ == "__main__":
+    main()
