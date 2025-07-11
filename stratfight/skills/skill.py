@@ -23,7 +23,7 @@ class Skill():
         self.buffed_stat = buffed_stat
         self.buff_percentage = buff_percentage
 
-    def __str__(self):
+    def __str__(self) -> str:
         return textwrap.dedent(f"""
         Name:\t\t{self.name} lvl {self.level}
         Description:\t{self.description}
@@ -33,5 +33,5 @@ class Skill():
         Multi-target:\t{self.multi_target}
         """).strip()
 
-    def __shorthand__(self):
+    def __shorthand__(self) -> str:
         return (f"{self.name} lvl {self.level}\tDamage:{self.damage} {self.damage_type.value}")

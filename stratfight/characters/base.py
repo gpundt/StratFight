@@ -26,7 +26,7 @@ class BaseCharacter:
         self.is_alive = (self.current_hp > 0)
         self.debug_logs = debug_logs
 
-    def __str__(self):
+    def __str__(self) -> str:
         return textwrap.dedent(f"""
             Name:\t\t{self.name}
             Level:\t\t{self.level}
@@ -39,7 +39,7 @@ class BaseCharacter:
             Skill:\t\t{self.skill.name}
             """).strip()
     
-    def __repr__(self):
+    def __repr__(self) -> str:
         return (f"<{self.__class__.__name__}("
                 f"name='{self.name}', "
                 f"Level={self.level}, "
@@ -50,7 +50,7 @@ class BaseCharacter:
                 f"Damage={self.damage_type.name}, "
                 f"Skill={self.skill.name})>")
     
-    def __shorthand__(self):
+    def __shorthand__(self) -> str:
         return(f"{self.name} Lvl {self.level}\tHP: {self.current_hp}/{self.max_hp}\tATK: {self.current_attack}\tDEF: {self.current_defense}")
 
     def take_damage(self, damage_amount: int, damage_type: DamageType):

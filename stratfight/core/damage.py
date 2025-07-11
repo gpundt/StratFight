@@ -10,10 +10,10 @@ import random
 
 
 # ======= Enemy Functions ======= #
-def enemy_select_player(targets: list[Player]):
+def enemy_select_player(targets: list[Player])-> Player:
     return random.choice(targets)
 
-def enemy_select_enemy(targets: list[Enemy]):
+def enemy_select_enemy(targets: list[Enemy]) -> Enemy:
     lowest_hp_enemy = min(targets, key=lambda enemy: enemy.current_hp)
     return lowest_hp_enemy
 
@@ -55,7 +55,7 @@ def enemy_multi_target_heal_skill(user: Enemy, receivers: list[Enemy]):
 
 
 # ======= Player Functions ======= #
-def player_select_enemy(targets: list[Enemy]):
+def player_select_enemy(targets: list[Enemy]) -> Enemy:
     print(f"Select a target enemy:")
     for enemy in targets:
         print(f"{targets.index(enemy)+1})\t{enemy.name}\t({enemy.current_hp}/{enemy.max_hp})")
@@ -66,7 +66,7 @@ def player_select_enemy(targets: list[Enemy]):
         print("[!] Invalid Choice [!]\n")
         return player_select_enemy(targets)
     
-def player_select_player(targets: list[Player]):
+def player_select_player(targets: list[Player]) -> Player:
     print(f"Select a target player:")
     for player in targets:
         print(f"{targets.index(player)+1})\t{player.name}\t({player.current_hp}/{player.max_hp})")

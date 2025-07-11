@@ -17,7 +17,7 @@ class Turn():
         self.all = players + enemies
         self.combat_order = sorted(self.all, key=lambda character: character.max_stamina, reverse=True)
 
-    def combat(self):
+    def combat(self) -> int:
         while True:
             turn_result = self.full_turn()
             match turn_result:
@@ -28,7 +28,7 @@ class Turn():
                 case "LOSE":
                     return 1
         
-    def check_enemy_team(self):
+    def check_enemy_team(self) -> str:
         if len(self.enemies) == 0:
             return "DEAD"
         for enemy in self.enemies:
@@ -38,7 +38,7 @@ class Turn():
                     player.gain_xp(enemy.xp_drop)
         return "ALIVE"
     
-    def check_player_team(self):
+    def check_player_team(self) -> str:
         if len(self.players) == 0:
             return "DEAD"
         for player in self.players:
@@ -120,7 +120,7 @@ class Turn():
         for entity in self.combat_order:
             print(f"{entity.name}:\t{entity.current_hp}/{entity.max_hp}\t{entity.max_stamina} MAX STA")
 
-    def full_turn(self):
+    def full_turn(self)-> str:
         print(f"Turn: {self.turn_number}")
         self.print_combat_order()
         for entity in self.combat_order:

@@ -11,7 +11,7 @@ class Player(BaseCharacter):
         self.current_xp = 0
         self.max_xp = max_xp
 
-    def __str__(self):
+    def __str__(self) -> str:
         return textwrap.dedent(f"""
             Name:\t\t{self.name}
             Level:\t\t{self.level}
@@ -24,7 +24,7 @@ class Player(BaseCharacter):
             Damage:\t\t{self.damage_type.value}
             """).strip()
     
-    def __repr__(self):
+    def __repr__(self) -> str:
         return (f"<{self.__class__.__name__}("
                 f"name='{self.name}', "
                 f"Level={self.level}, "

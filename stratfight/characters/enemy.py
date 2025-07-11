@@ -11,7 +11,7 @@ class Enemy(BaseCharacter):
         super().__init__(name, max_hp, base_attack, base_defense, max_mana, max_stamina, damage_type, character_class, status_effects, level, debug_logs)
         self.xp_drop = xp_drop
 
-    def __str__(self):
+    def __str__(self) -> str:
         return textwrap.dedent(f"""
             Name:\t\t{self.name}
             Level:\t\t{self.level}
@@ -24,7 +24,7 @@ class Enemy(BaseCharacter):
             Damage:\t\t{self.damage_type.value}
             """).strip()
     
-    def __repr__(self):
+    def __repr__(self) -> int:
         return (f"<{self.__class__.__name__}("
                 f"name='{self.name}', "
                 f"Level={self.level}, "
@@ -35,7 +35,7 @@ class Enemy(BaseCharacter):
                 f"Class={self.character_class.name}, "
                 f"Damage={self.damage_type.name})>")
     
-    def dropped_xp(self):
+    def dropped_xp(self) -> int:
         return self.xp_drop
     
 def main():

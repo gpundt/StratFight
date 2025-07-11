@@ -4,6 +4,7 @@ from stratfight.characters.player import Player
 from stratfight.characters.enemy import Enemy
 from stratfight.enums.damage_types import DamageType
 from stratfight.enums.character_classes import CharacterClass
+from stratfight.skills.skill import Skill
 
 def load_json(path: str) -> list[dict]:
     with open(Path(path), 'r') as f:
@@ -48,3 +49,8 @@ def load_enemies(json_path: str) -> list[Enemy]:
         )
         enemies.append(enemy)
     return enemies
+
+
+def load_skills(json_path: str) -> list[Skill]:
+    skills_data = load_json(json_path)
+    pass
