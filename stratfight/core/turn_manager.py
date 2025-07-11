@@ -6,8 +6,8 @@ from stratfight.status_effects.effects import StatusEffect
 from stratfight.characters.player import Player
 from stratfight.characters.enemy import Enemy
 import stratfight.core.damage as damage
+from stratfight.skills.skill import Skill
 import random
-import sys
 
 class Turn():
     def __init__(self, turn_number: int, players: list[Player], enemies: list[Enemy]):
@@ -66,7 +66,6 @@ class Turn():
                 if result == 1:
                     print("[!] Skill is Too Expensive! [!]")
                     self.player_make_choice(player)
-                player.use_skill()
                 match player.skill.multi_target:
                     case False:
                         if player.skill.heal:
@@ -94,10 +93,10 @@ class Turn():
             enemy.gain_defense(enemy.current_defense)
             print(f"{enemy.name} raises their defence to {enemy.current_defense}!")
         elif choice >= 51 or choice <= 90:
-            if enemy.use_skill() == 1:
+            result = enemy.use_skill()
+            if result == 1:
                 self.enemy_make_choice(enemy)
             else:
-                enemy.use_skill()
                 match enemy.skill.multi_target:
                     case False:
                         if enemy.skill.heal:
@@ -143,10 +142,13 @@ class Turn():
 
 
 def main():
-    test_player1 = Player("Test_player2", 50, 7, 10, 90, 20, DamageType.DARK, CharacterClass.WARLOCK, [], 43, 100, debug_logs=True)
-    test_player2 = Player("Test_player1", 50, 7, 10, 0, 20, DamageType.DARK, CharacterClass.WARLOCK, [], 43, 100, debug_logs=True)
-    test_enemy1 = Enemy("Test_enemy1", 40, 5, 5, 5, 5, DamageType.DARK, CharacterClass.BARBARIAN, [], 5, 10, debug_logs=True)
-    test_enemy2 = Enemy("Test_enemy2", 40, 5, 5, 5, 90, DamageType.DARK, CharacterClass.BARBARIAN, [], 5, 10, debug_logs=True)
+    test_player_skill = Skill("Test_skill1", "a skill to test with", 30, 1, 5, 5, 5, DamageType.NORMAL, StatusEffect.NONE, True, False, False, "none", 0)
+    test_enemy_skill = Skill("Test_enemy_skill", "Another skill!", 30, 2, 10, 10, 10, DamageType.DARK, StatusEffect.POISON, True, False, True, "ATK", .5)
+    test_heal_skill = Skill("Heal", "Heals someone", 20, 5, 20, 0, 0, DamageType.LIGHT, StatusEffect.NONE, True, True ,False, "NONE", 0)
+    test_player1 = Player("Test_player2", 50, 7, 10, 90, 20, DamageType.DARK, CharacterClass.WARLOCK, [], 5, test_player_skill, 100, debug_logs=True)
+    test_player2 = Player("Test_player1", 50, 7, 10, 0, 20, DamageType.DARK, CharacterClass.WARLOCK, [], 43, test_heal_skill, 100, debug_logs=True)
+    test_enemy1 = Enemy("Test_enemy1", 40, 5, 5, 5, 5, DamageType.DARK, CharacterClass.BARBARIAN, [], 5, test_heal_skill, 10, debug_logs=True)
+    test_enemy2 = Enemy("Test_enemy2", 40, 5, 5, 5, 90, DamageType.DARK, CharacterClass.BARBARIAN, [], 5, test_enemy_skill, 10, debug_logs=True)
     turn = Turn(1, [test_player1, test_player2], [test_enemy1, test_enemy2])
     turn.combat()
 

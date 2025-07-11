@@ -36,7 +36,7 @@ def enemy_multi_target_status_attack(attacker: Enemy, defenders: list[Player], s
 
 def enemy_single_target_attack_skill(attacker: Enemy, defender: Player):
     print(f"{attacker.name} uses {attacker.skill.name} on {defender.name}!")
-    defender.take_damage(attacker.skill.damage)
+    defender.take_damage(attacker.skill.damage, attacker.skill.damage_type)
     if (attacker.skill.status_effect.value != "None"):
         defender.gain_status_effect(attacker.skill.status_effect)
 
@@ -96,7 +96,7 @@ def player_multi_target_status_attack(attacker: Player, defenders: list[Enemy], 
 
 def player_single_target_attack_skill(attacker: Player, defender: Enemy):
     print(f"{attacker.name} uses {attacker.skill.name} on {defender.name}!")
-    defender.take_damage(attacker.skill.damage)
+    defender.take_damage(attacker.skill.damage, attacker.skill.damage_type)
     if (attacker.skill.status_effect.value != "None"):
         defender.gain_status_effect(attacker.skill.status_effect)
 

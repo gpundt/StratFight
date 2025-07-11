@@ -4,10 +4,11 @@ from stratfight.enums.character_classes import CharacterClass
 from stratfight.utils.logger import log
 from stratfight.status_effects.effects import StatusEffect
 import textwrap
+from stratfight.skills.skill import Skill
 
 class Player(BaseCharacter):
-    def __init__(self, name, max_hp, base_attack, base_defense, max_mana, max_stamina, damage_type, character_class, status_effects, level, max_xp, debug_logs = False):
-        super().__init__(name, max_hp, base_attack, base_defense, max_mana, max_stamina, damage_type, character_class, status_effects, level, debug_logs)
+    def __init__(self, name: str, max_hp: int, base_attack: int, base_defense: int, max_mana: int, max_stamina: int, damage_type: DamageType, character_class: CharacterClass, status_effects: StatusEffect, level: int, skill: Skill, max_xp: int, debug_logs = False):
+        super().__init__(name, max_hp, base_attack, base_defense, max_mana, max_stamina, damage_type, character_class, status_effects, level, skill, debug_logs)
         self.current_xp = 0
         self.max_xp = max_xp
 
@@ -15,6 +16,7 @@ class Player(BaseCharacter):
         return textwrap.dedent(f"""
             Name:\t\t{self.name}
             Level:\t\t{self.level}
+            Skill:\t\t{self.skill.name}
             XP:\t\t{self.current_xp}/{self.max_xp}
             HP:\t\t{self.current_hp}/{self.max_hp}
             Mana:\t\t{self.current_mana}/{self.max_mana}
@@ -28,6 +30,7 @@ class Player(BaseCharacter):
         return (f"<{self.__class__.__name__}("
                 f"name='{self.name}', "
                 f"Level={self.level}, "
+                f"skill={self.skill.name}, "
                 f"XP={self.current_xp}/{self.max_xp}, "
                 f"HP={self.current_hp}/{self.max_hp}, "
                 f"Mana={self.current_mana}/{self.max_mana}, "
