@@ -34,6 +34,8 @@ class Turn():
         for enemy in self.enemies:
             if enemy.current_hp == 0:
                 self.enemies.remove(enemy)
+                for player in self.players:
+                    player.gain_xp(enemy.xp_drop)
         return "ALIVE"
     
     def check_player_team(self):
@@ -96,6 +98,8 @@ class Turn():
             elif player_status == "DEAD":
                 print(f"Game Over!\nYour team has been slain!")
                 return "LOSE"
+            enemy_status = self.check_enemy_team()
+            player_status = self.check_player_team()
             self.turn_number += 1
         return "CONTINUE"
 
