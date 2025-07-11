@@ -114,6 +114,7 @@ class Turn():
         else:
             print(f"{enemy.name} passes...")
 
+
     def print_combat_order(self):
         print(f"="*5 + " Combat Order " + "="*5)
         for entity in self.combat_order:
