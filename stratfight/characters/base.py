@@ -2,10 +2,11 @@ from stratfight.enums.damage_types import DamageType
 from stratfight.enums.character_classes import CharacterClass
 from stratfight.utils.logger import log
 from stratfight.status_effects.effects import StatusEffect
+from stratfight.skills.skill import Skill
 import textwrap
 
 class BaseCharacter:
-    def __init__(self, name: str, max_hp: int, base_attack: int, base_defense: int, max_mana: int, max_stamina: int, damage_type: DamageType, character_class: CharacterClass, status_effects: list[StatusEffect], level: int, debug_logs: bool = False):
+    def __init__(self, name: str, max_hp: int, base_attack: int, base_defense: int, max_mana: int, max_stamina: int, damage_type: DamageType, character_class: CharacterClass, status_effects: list[StatusEffect], level: int, skill: Skill, debug_logs: bool = False):
         self.name = name
         self.max_hp = max_hp
         self.current_hp = max_hp
@@ -21,6 +22,7 @@ class BaseCharacter:
         self.character_class = character_class
         self.status_effects = status_effects
         self.level = level
+        self.skill = skill
         self.is_alive = (self.current_hp > 0)
         self.debug_logs = debug_logs
 
@@ -34,6 +36,7 @@ class BaseCharacter:
             A/D:\t\t{self.current_attack}/{self.current_defense}
             Class:\t\t{self.character_class.value}
             Damage:\t\t{self.damage_type.value}
+            Skill:\t\t{self.skill.name}
             """).strip()
     
     def __repr__(self):
@@ -44,7 +47,8 @@ class BaseCharacter:
                 f"Mana={self.current_mana}/{self.max_mana}, "
                 f"Stamina={self.current_stamina}/{self.max_stamina}, "
                 f"Class={self.character_class.name}, "
-                f"Damage={self.damage_type.name})>")
+                f"Damage={self.damage_type.name}, "
+                f"Skill={self.skill.name})>")
     
     def __shorthand__(self):
         return(f"{self.name} Lvl {self.level}\tHP: {self.current_hp}/{self.max_hp}\tATK: {self.current_attack}\tDEF: {self.current_defense}")
@@ -59,6 +63,11 @@ class BaseCharacter:
         if (self.current_hp == 0):
             self.is_alive = False
             print(f"{self.name} has been slain!")
+        
+    def spend_hp(self, cost: int):
+        self.current_hp -= cost
+        if self.debug_logs:
+            log(f"{self.name} spent {cost} HP! HP is now {self.current_hp}/{self.max_hp}")
     
     def gain_hp(self, heal_amount: int):
         self.current_hp += min(self.max_hp, self.current_hp + heal_amount)
@@ -206,6 +215,27 @@ class BaseCharacter:
         self.max_stamina += increase_amount
         if self.debug_logs:
             log(f"{self.name}'s max Stamina has increased to {self.max_stamina}!")
+
+    def use_skill(self):
+        ## Check cost ##
+        if self.current_hp < self.skill.hp_cost or self.current_mana < self.skill.mana_cost or self.current_stamina < self.skill.stamina_cost:
+            return 1
+        print(f"{self.name} used {self.skill.name}!")
+        self.spend_mana(self.skill.mana_cost)
+        self.spend_stamina(self.skill.stamina_cost)
+        self.spend_hp(self.skill.hp_cost)
+        if self.skill.stat_buff:
+            match self.skill.buffed_stat:
+                case "ATK":
+                    self.increase_base_attack(self.base_attack * self.skill.buff_percentage)
+                case "DEF":
+                    self.increase_base_defense(self.base_defense * self.skill.buff_percentage)
+                case "STA":
+                    self.increase_max_stamina(self.max_stamina * self.skill.buff_percentage)
+                case "MANA":
+                    self.increase_max_mana(self.max_mana * self.skill.buff_percentage)
+                case "HP":
+                    self.increase_max_hp(self.max_hp * self.skill.buff_percentage)
 
 
 def main():

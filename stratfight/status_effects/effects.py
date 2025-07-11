@@ -9,3 +9,4 @@ class StatusEffect(Enum):
     FEAR = "Fear"
     BLIND = "Blind"
     MUTE = "Mute"
+    NONE = "None"

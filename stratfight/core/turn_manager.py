@@ -57,21 +57,60 @@ class Turn():
             case "1":
                 target_enemy = damage.player_select_enemy(self.enemies)
                 damage.player_single_target_attack(player, target_enemy)
+
             case "2":
                 player.gain_defense(player.current_defense*.5)
+
             case "3":
-                pass
+                result = player.use_skill()
+                if result == 1:
+                    print("[!] Skill is Too Expensive! [!]")
+                    self.player_make_choice(player)
+                player.use_skill()
+                match player.skill.multi_target:
+                    case False:
+                        if player.skill.heal:
+                            target_player = damage.player_select_player(self.players)
+                            damage.player_single_target_heal_skill(player, target_player)
+                        else:
+                            target_enemy = damage.player_select_enemy(self.enemies)
+                            damage.player_single_target_attack_skill(player, target_enemy)
+                    case True:
+                        if player.skill.heal:
+                            damage.player_multi_target_heal_skill(player, self.players)
+                        else:
+                            damage.player_multi_target_attack_skill(player, self.enemies)
+
             case "4":
                 print(f"{player.name} passes...")
 
+
     def enemy_make_choice(self, enemy: Enemy):
-        choice = random.randint(0, 50)
-        if choice <= 25:
+        choice = random.randint(0, 100)
+        if choice <= 35:
             target_player = damage.enemy_select_player(self.players)
             damage.enemy_single_target_attack(enemy, target_player)
-        elif choice >= 26 or choice <= 45:
+        elif choice >=36 or choice <= 50:
             enemy.gain_defense(enemy.current_defense)
             print(f"{enemy.name} raises their defence to {enemy.current_defense}!")
+        elif choice >= 51 or choice <= 90:
+            if enemy.use_skill() == 1:
+                self.enemy_make_choice(enemy)
+            else:
+                enemy.use_skill()
+                match enemy.skill.multi_target:
+                    case False:
+                        if enemy.skill.heal:
+                            target_enemy = damage.enemy_select_enemy(self.enemies)
+                            damage.enemy_single_target_heal_skill(enemy, target_enemy)
+                        else:
+                            target_enemy = damage.enemy_select_player(self.players)
+                            damage.enemy_single_target_attack_skill(enemy, target_enemy)
+                    case True:
+                        if enemy.skill.heal:
+                            damage.enemy_multi_target_heal_skill(enemy, self.enemies)
+                        else:
+                            damage.enemy_multi_target_attack_skill(enemy, self.players)
         else:
             print(f"{enemy.name} passes...")
 
@@ -84,8 +123,8 @@ class Turn():
         print(f"Turn: {self.turn_number}")
         self.print_combat_order()
         for entity in self.combat_order:
-            enemy_status = self.check_enemy_team()
             player_status = self.check_player_team()
+            enemy_status = self.check_enemy_team()
             if enemy_status == "ALIVE" and player_status == "ALIVE":
                 print(f"{entity.name}'s Turn!")
                 if type(entity) is Enemy:
@@ -98,8 +137,6 @@ class Turn():
             elif player_status == "DEAD":
                 print(f"Game Over!\nYour team has been slain!")
                 return "LOSE"
-            enemy_status = self.check_enemy_team()
-            player_status = self.check_player_team()
             self.turn_number += 1
         return "CONTINUE"
 
