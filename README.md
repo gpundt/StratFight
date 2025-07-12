@@ -5,10 +5,32 @@ Python fighting game
 ### To Do
 
 1) Skills
-2) Better enemy generation
-3) Run Game
-4) GUI
+```
+- Create List of Player Skills (player_skills.json)
+    - Add Skills to Player List (players.json)
+- Create List of Enemy Skills (enemy_skills.json)
+    - Add Skills to Enemy List (enemies.json)
+```
 
+2) Better enemy generation
+```
+- Full Campaign Generation
+- Increasing Difficulty
+```
+
+3) Run Game
+```
+- main.py
+    - campaign.py?
+    - adventure.py?
+```
+
+4) GUI
+```
+- Kivy
+- PyQt
+- Tkinter
+```
 
 ### How to Play
 
