@@ -1,0 +1,19 @@
+[
+    {
+        "name": "Earthquake",
+        "description": "Character stomps the ground, shooting seismic waves across the battlefield.",
+        "damage": 30,
+        "level": 1,
+        "mana_cost": 20,
+        "stamina_cost": 0,
+        "health_cost": 5,
+        "damage_type": "EARTH",
+        "status_effect": "PARALYZED",
+        "multi_target": "True",
+        "heal": "False",
+        "stat_buff": "True",
+        "buffed_stat": "DEF",
+        "buff_percentage": 0.25
+    }
+
+]
