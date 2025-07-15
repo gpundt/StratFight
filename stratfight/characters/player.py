@@ -43,6 +43,7 @@ class Player(BaseCharacter):
         if self.debug_logs:
             log(f"{self.name}'s max XP has increased to {self.max_xp}")
 
+    # player's stats increase from levelup
     def level_increase_stats(self):
         self.increase_max_hp(5)
         self.increase_max_mana(5)
@@ -50,9 +51,9 @@ class Player(BaseCharacter):
         self.increase_base_attack(2)
         self.increase_base_defense(2)
 
+    # player levels up, increasing stats, and increasing skill if applicable
     def level_up(self):
         self.level += 1
-        
         print(f"{self.name} has leveled up to {self.level}!")
         self.increase_max_xp(20)
         self.level_increase_stats()
@@ -62,6 +63,7 @@ class Player(BaseCharacter):
             self.skill.level_up()
         print(f"[Stats Increased]\n{self}")
 
+    # Character gains XP, and levels up if applicable
     def gain_xp(self, gain_amount: int):
         print(f"{self.name} has gained {gain_amount} XP!")
         self.current_xp += gain_amount
@@ -70,6 +72,7 @@ class Player(BaseCharacter):
             self.level_up()
 
 
+## Testing player ##
 def main():
     test_player = Player("Test_player", 50, 7, 10, 50, 20, DamageType.DARK, CharacterClass.WARLOCK, [], 43, 100, debug_logs=True)
     print(test_player)

@@ -17,6 +17,7 @@ class Turn():
         self.all = players + enemies
         self.combat_order = sorted(self.all, key=lambda character: character.max_stamina, reverse=True)
 
+    # repeats fuull turns until one team is dead
     def combat(self) -> int:
         while True:
             turn_result = self.full_turn()
@@ -28,25 +29,31 @@ class Turn():
                 case "LOSE":
                     return 1
         
+    # checks to see if any enemies are dead, giving XP to players if applicable
     def check_enemy_team(self) -> str:
-        if len(self.enemies) == 0:
-            return "DEAD"
         for enemy in self.enemies:
             if enemy.current_hp == 0:
                 self.enemies.remove(enemy)
                 for player in self.players:
                     player.gain_xp(enemy.xp_drop)
+        self.all = self.players + self.enemies
+        self.combat_order = sorted(self.all, key=lambda character: character.max_stamina, reverse=True)
+        if len(self.enemies) == 0:
+            return "DEAD"
         return "ALIVE"
     
+    # checks to see if any players are dead and removes them from the list
     def check_player_team(self) -> str:
-        if len(self.players) == 0:
-            return "DEAD"
         for player in self.players:
             if player.current_hp == 0:
                 self.players.remove(player)
+        self.all = self.players + self.enemies
+        self.combat_order = sorted(self.all, key=lambda character: character.max_stamina, reverse=True)
+        if len(self.players) == 0:
+            return "DEAD"
         return "ALIVE"
 
-
+    # Prompts the user to make a choice, selecting a target if applicable
     def player_make_choice(self, player: Player):
         choice = input(f"{player.name}... Make a choice\n"\
             f"1)\tAttack\t({player.current_attack} ATK)\n"\
@@ -84,6 +91,7 @@ class Turn():
                 print(f"{player.name} passes...")
 
 
+    # An enemy makes a random choice on a random target
     def enemy_make_choice(self, enemy: Enemy):
         choice = random.randint(0, 100)
         if choice <= 35:
@@ -113,12 +121,13 @@ class Turn():
         else:
             print(f"{enemy.name} passes...")
 
-
+    # prints the list of attacking characters in order
     def print_combat_order(self):
         print(f"="*5 + " Combat Order " + "="*5)
         for entity in self.combat_order:
             print(f"{entity.name}:\t{entity.current_hp}/{entity.max_hp}\t{entity.max_stamina} MAX STA")
 
+    # Iterates through combat order, then prompts each character to make a choice
     def full_turn(self)-> str:
         print(f"Turn: {self.turn_number}")
         self.print_combat_order()
@@ -141,6 +150,7 @@ class Turn():
         return "CONTINUE"
 
 
+## Testing combat ##
 def main():
     test_player_skill = Skill("Test_skill1", "a skill to test with", 30, 1, 5, 5, 5, DamageType.NORMAL, StatusEffect.NONE, True, False, False, "none", 0)
     test_enemy_skill = Skill("Test_enemy_skill", "Another skill!", 30, 2, 10, 10, 10, DamageType.DARK, StatusEffect.POISON, True, False, True, "ATK", .5)

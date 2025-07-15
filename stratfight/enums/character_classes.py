@@ -1,5 +1,6 @@
 from enum import Enum, auto
 
+## List of classes available for Characters ##
 class CharacterClass(Enum):
     BARBARIAN = "Barbarian"
     BARD = "Bard"

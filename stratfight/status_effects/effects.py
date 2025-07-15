@@ -1,5 +1,6 @@
 from enum import Enum
 
+## List of status effects available to characters ##
 class StatusEffect(Enum):
     POISON = "Poison"
     BURN = "Burn"

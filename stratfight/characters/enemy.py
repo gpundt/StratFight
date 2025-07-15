@@ -38,6 +38,7 @@ class Enemy(BaseCharacter):
                 f"Class={self.character_class.name}, "
                 f"Damage={self.damage_type.name})>")
     
+    # Returns dropped XP amount
     def dropped_xp(self) -> int:
         return self.xp_drop
     

@@ -1,5 +1,6 @@
 from enum import Enum, auto
 
+## List of damage types available for Characters ##
 class DamageType(Enum):
     NORMAL = "Normal"
     FIRE = "Fire"

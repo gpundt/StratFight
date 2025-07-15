@@ -40,6 +40,7 @@ class Battle():
     def load_random_enemies(self) -> list[Enemy]:
         pass
 
+    # user selects the size of their team at the beginning of the game
     def select_team_size(self) -> int:
         team_size = input("Select your team size: (1 - 5)\n>>>\t")
         try:
@@ -52,6 +53,7 @@ class Battle():
             print("[!] Invalid Choice [!]")
             return self.select_team_size()
         
+    # User selects a player from the list of players 
     def select_team_member(self) -> Player:
         print("Select a member for your team:")
         for player in self.players:
@@ -59,12 +61,13 @@ class Battle():
         choice = input(">>>\t")
         try:
             chosen_player = self.players[choice-1]
+            self.players.remove(chosen_player)
             return chosen_player
         except:
             print("[!] Invalid Choice [!]")
             return self.select_team_member()
             
-    
+    # user selects a team size and fills their team with that many players
     def form_team(self):
         selected_team = []
         team_size = self.select_team_size()
@@ -75,6 +78,6 @@ class Battle():
         for player in selected_team:
             print(player.__shorthand__())
 
-
+    # user forms their team and fights against a team of enemies based on difficulty
     def commence_battle(self, difficulty: int) -> int:
         enemies = self.load_random_enemies()

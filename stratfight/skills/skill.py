@@ -56,52 +56,64 @@ class Skill():
     def __shorthand__(self) -> str:
         return (f"{self.name} lvl {self.level}\tDamage:{self.damage} {self.damage_type.value}")
     
+    # Increases stats when skill levels up
     def level_increase_stats(self):
         self.increase_damage(self.level_damage_increase)
         self.increase_mana_cost(self.level_mana_cost_increase)
         self.increase_stamina_cost(self.level_stamina_cost_increase)
         self.increase_health_cost(self.level_hp_cost_increase)
 
+    # Levels up skill and increases stats
     def level_up(self):
         self.level += 1
         print(f"Skill [{self.name}] has leveled up to {self.level}!")
         self.level_increase_stats()
         print(f"[Stats Increased]\n{self}")
     
+    # increases this skill's damage, and heal amount if applicable
     def increase_damage(self, increase_amount: int):
         self.damage += increase_amount
+        if self.heal:
+            self.heal_amount = self.damage
 
+    # increases this skill's mana cost
     def increase_mana_cost(self, increase_amount: int):
         self.mana_cost += increase_amount
 
+    # decreases this skill's mana cost
     def decrease_mana_cost(self, decrease_amount: int):
         self.mana_cost = min(0, self.mana_cost - decrease_amount)
 
+    # increases this skill's stamina cost
     def increase_stamina_cost(self, increase_amount: int):
         self.stamina_cost += increase_amount
 
+    # decreases this skill's stamina cost
     def decrease_stamina_cost(self, decrease_amount: int):
         self.stamina_cost = min(0, self.stamina_cost - decrease_amount)
 
+    # increases this skill's health cost
     def increase_health_cost(self, increase_amount: int):
         self.hp_cost += increase_amount
 
+    # decreases this skill's health cost
     def decrease_health_cost(self, decrease_amount: int):
         self.hp_cost = min(0, self.hp_cost - decrease_amount)
 
+    # increases this skill's buff percentage
     def increase_buff_percentage(self, increase_amount: float):
         self.buff_percentage += increase_amount
         if (self.buff_percentage > 0.0):
             self.stat_buff = True
 
+    # decreases this skill's buff percentage 
     def decrease_buff_percentage(self, decrease_amount: float):
         self.buff_percentage = min(0, self.buff_percentage - decrease_amount)
         if (self.buff_percentage == 0.0):
             self.stat_buff = False
 
-    
 
-
+## Testing Skill creation ##   
 def main():
     test_skill = Skill("Test Skill", "a skill to test with", 40, 1, 10, 10, 0, DamageType.EARTH, StatusEffect.NONE, True, False, False, "NONE", 0)
 

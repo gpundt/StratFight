@@ -5,6 +5,7 @@ from stratfight.enums.damage_types import DamageType
 from stratfight.enums.character_classes import CharacterClass
 
 
+# Generates a JSON list of ranomized enemies with increasing difficulty
 enemies = []
 for i in range(1, 31):
     name = f"{choice(['Goblin', 'Orc', 'Bandit', 'Wraith', 'Knight', 'Demon', 'Cultist', 'Slime', 'Wolf', 'Beast'])}"
