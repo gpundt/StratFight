@@ -52,10 +52,14 @@ class Player(BaseCharacter):
 
     def level_up(self):
         self.level += 1
+        
         print(f"{self.name} has leveled up to {self.level}!")
         self.increase_max_xp(20)
         self.level_increase_stats()
         self.full_restore_all()
+        if self.level % 5 == 0:
+            print(f"{self.name} has hit a milestone!")
+            self.skill.level_up()
         print(f"[Stats Increased]\n{self}")
 
     def gain_xp(self, gain_amount: int):
